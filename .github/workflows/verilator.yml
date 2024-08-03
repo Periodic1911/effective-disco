@@ -15,14 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Verilator
-        uses: awalsh128/cache-apt-pkgs-action@latest
+      - name: Setup Arch Linux environment with Verilator
+        uses: RangHo/setup-arch@v1.2.0
         with:
-          packages: verilator
-          version: 1.0
+          packages: "verilator gcc"
 
       - name: Run helloworld in systemverilog
         run: |
           verilator --version
           verilator --sv --binary -j 0 -Wall helloworld.v
           ./obj-dir/Vhelloworld
+        shell: arch.sh {0}
