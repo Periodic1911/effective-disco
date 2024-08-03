@@ -23,5 +23,6 @@ jobs:
 
       - name: Run helloworld in systemverilog
         run: |
+          verilator --version
           verilator --sv --binary -j 0 -Wall helloworld.v
           ./obj-dir/Vhelloworld
