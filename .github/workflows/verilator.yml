@@ -20,8 +20,7 @@ jobs:
         with:
           packages: "verilator python"
 
-      - name: Run helloworld in systemverilog
+      - name: Run makefile
         run: |
-          verilator --sv --binary -j 0 -Wall helloworld.v
-          ${{ github.workspace }}/obj_dir/Vhelloworld
+          make test
         shell: arch.sh {0}
