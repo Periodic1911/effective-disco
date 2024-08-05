@@ -3,3 +3,6 @@ test:
 	./obj_dir/Vhelloworld
 	verilator --sv --lint-only --Wall vga.sv
 
+sim:
+	verilator --sv --binary --timescale 1ns --timing --trace -j 0 tb_vga.sv
+	./obj_dir/Vtb_vga
