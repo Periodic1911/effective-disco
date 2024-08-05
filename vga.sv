@@ -8,7 +8,7 @@ module vga(clk, rst, hsync, vsync, r, g, b);
   output logic b;
 
   logic [9:0] hcnt; // 0-800
-  logic [9:0]  vcnt; // 0-525
+  logic [9:0] vcnt; // 0-525
 
   always_ff @(posedge clk or posedge rst) begin: counters
 	  unique if (rst) begin
@@ -32,10 +32,10 @@ module vga(clk, rst, hsync, vsync, r, g, b);
   end: syncs
 
   always_comb begin: color_pattern
-    unique if (hcnt < 640 || vcnt < 480) begin
-      {r, g, b} = 3'b0;
-    end else begin
+    unique if (hcnt < 640 && vcnt < 480) begin
       {r, g, b} = hcnt[8:6];
+    end else begin
+      {r, g, b} = 3'b0;
     end
   end: color_pattern
 endmodule
