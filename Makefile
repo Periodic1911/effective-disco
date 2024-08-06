@@ -35,7 +35,7 @@ upload: $(NAME).bin
 fw: $(NAME).bin
 
 $(NAME).bin: $(NAME).pcf $(NAME).v $(DEPS)
-	yosys -q -p "synth_ice40 -blif $(NAME).blif" -p "write_json $(NAME).json" $(NAME).v $(DEPS)
+	yosys -q -p "synth_ice40 -blif $(NAME).blif" -p "write_json $(NAME).json" -r $(NAME) $(NAME).v $(DEPS)
 	nextpnr-ice40 --json top.json --pcf top.pcf --asc top.asc --lp8k --package cm81 --freq $(CLK_MHZ)
 	icepack -s $(NAME).asc $(NAME).bin
 
