@@ -20,7 +20,22 @@ jobs:
         with:
           packages: "verilator python"
 
-      - name: Run makefile
+      - name: Run lint
         run: |
           make lint
         shell: arch.sh {0}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yosys and nextpnr
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: yosys nextpnr-ice40
+          version: 1.0
+
+      - name: Run makefile
+        run: |
+          make fw
