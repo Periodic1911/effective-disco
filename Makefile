@@ -5,6 +5,7 @@ CLK_MHZ = 25
 pll.v:
 	icepll -i 16 -o $(CLK_MHZ) -m -f $@
 
+.PHONY: lint
 lint: $(NAME).v $(DEPS)
 	verilator --binary -j 0 -Wall helloworld.v
 	./obj_dir/Vhelloworld
