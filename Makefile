@@ -2,8 +2,7 @@ NAME = top
 DEPS = vga.v inp.v pll.v
 CLK_MHZ = 25
 
-pll.v:
-	icepll -i 16 -o $(CLK_MHZ) -m -f $@
+all: fw
 
 .PHONY: lint
 lint: $(NAME).v $(DEPS)
@@ -16,8 +15,10 @@ sim_vga:
 	verilator --binary --timescale 1ns --timing --trace -j 0 tb_vga.v
 	./obj_dir/Vtb_vga
 
-.PHONY: clean
-all: upload
+
+pll.v:
+	icepll -i 16 -o $(CLK_MHZ) -m -f $@
+
 
 .PHONY: upload
 upload: $(NAME).bin
@@ -44,4 +45,4 @@ sim: $(NAME).v $(DEPS) $(NAME)_tb.v $(shell yosys-config --datdir)/ice40/cells_s
 
 .PHONY: clean
 clean:
-	rm -f *.bin *.blif *.out *~
+	rm *.bin *.blif *.out
