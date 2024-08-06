@@ -8,7 +8,7 @@ all: fw
 lint: $(NAME).v $(DEPS)
 	verilator --binary -j 0 -Wall helloworld.v
 	./obj_dir/Vhelloworld
-	verilator --lint-only --Wall --top-module $(NAME) $(DEPS) $(NAME).v
+	verilator --lint-only --Wall --timing --top-module $(NAME) $(DEPS) $(NAME).v
 
 .PHONY: sim_vga
 sim_vga:

@@ -4,6 +4,7 @@ logic clk;
 logic rst;
 logic r, g, b;
 logic hsync, vsync;
+logic [9:0] hcnt, vcnt;
 
 vga vga0 (.*);
 

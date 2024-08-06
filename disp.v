@@ -1,4 +1,4 @@
-module disp (input clk, rst, wire [19:0] ball, wire[7:0] score, wire[19:0] ppos, wire[9:0] vcnt, wire[9:0] hcnt, output reg draw);
+module disp (input wire [19:0] ball, wire[7:0] score, wire[19:0] ppos, wire[9:0] vcnt, wire[9:0] hcnt, output reg draw);
 reg ball_draw;
 reg score_draw;
 reg pad_draw;

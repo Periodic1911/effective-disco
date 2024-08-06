@@ -5,7 +5,7 @@ inp1p inp_player2(clk, rst, input_enable, p2up, p2down, p2pos);
 
 endmodule
 
-
+/* verilator lint_off DECLFILENAME */
 module inp1p #(parameter CNT = 2) (input clk, rst, input_enable, up, down, output reg [9:0] pos);
 
 always @(posedge clk or posedge rst) begin
