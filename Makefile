@@ -1,5 +1,5 @@
 NAME = top
-DEPS = vga.v inp.v pll.v
+DEPS = vga.v inp.v pll.v disp.v
 CLK_MHZ = 25
 
 all: fw
@@ -14,6 +14,11 @@ lint: $(NAME).v $(DEPS)
 sim_vga:
 	verilator --binary --timescale 1ns --timing --trace -j 0 tb_vga.v
 	./obj_dir/Vtb_vga
+
+.PHONY: sim_disp
+sim_disp:
+	verilator --binary --timescale 1ns --timing --trace -j 0 tb_disp.v
+	./obj_dir/Vtb_disp
 
 
 pll.v:

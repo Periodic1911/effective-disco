@@ -1,4 +1,4 @@
-module vga(clk, rst, hsync, vsync, r, g, b);
+module vga(clk, rst, hsync, vsync, r, g, b, hcnt, vcnt);
   input clk;
   input rst;
   output reg hsync;
@@ -7,8 +7,8 @@ module vga(clk, rst, hsync, vsync, r, g, b);
   output reg g;
   output reg b;
 
-  reg [9:0] hcnt; // 0-800
-  reg [9:0] vcnt; // 0-525
+  output reg [9:0] hcnt; // 0-800
+  output reg [9:0] vcnt; // 0-525
 
   always @(posedge clk or posedge rst) begin: counters
 	  if (rst) begin
