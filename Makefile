@@ -4,10 +4,13 @@ CLK_MHZ = 25
 
 all: fw
 
-.PHONY: lint
-lint: $(NAME).v $(DEPS)
+.PHONY: hello
+hello:
 	verilator --binary -j 0 -Wall helloworld.v
 	./obj_dir/Vhelloworld
+
+.PHONY: lint
+lint: $(NAME).v $(DEPS)
 	verilator --lint-only --Wall --timing --top-module $(NAME) $(DEPS) $(NAME).v
 
 .PHONY: sim_vga
