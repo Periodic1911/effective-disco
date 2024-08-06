@@ -1,14 +1,14 @@
 test:
-	verilator --sv --binary -j 0 -Wall helloworld.v
+	verilator --binary -j 0 -Wall helloworld.v
 	./obj_dir/Vhelloworld
-	verilator --sv --lint-only --Wall vga.sv
+	verilator --lint-only --Wall vga.v
 
 sim:
-	verilator --sv --binary --timescale 1ns --timing --trace -j 0 tb_vga.sv
+	verilator --binary --timescale 1ns --timing --trace -j 0 tb_vga.v
 	./obj_dir/Vtb_vga
 
 NAME = top
-DEPS = vga.sv
+DEPS = vga.v
 
 .PHONY: clean
 all: upload
@@ -35,8 +35,8 @@ gui: $(NAME).pcf $(NAME).v $(DEPS)
 	yosys -p "synth_ice40 -blif $(NAME).blif" -p "write_json $(NAME).json" $(NAME).v $(DEPS)
 	nextpnr-ice40 --json $(NAME).json --pcf $(NAME).pcf --asc $(NAME).asc --gui
 
-.PHONY: sim
-sim: $(NAME).v $(DEPS) $(NAME)_tb.v $(shell yosys-config --datdir)/ice40/cells_sim.v
+.PHONY: simu
+simu: $(NAME).v $(DEPS) $(NAME)_tb.v $(shell yosys-config --datdir)/ice40/cells_sim.v
 	iverilog $^ -o $(NAME)_tb.out
 	./$(NAME)_tb.out
 	gtkwave $(NAME)_tb.vcd $(NAME)_tb.gtkw &
