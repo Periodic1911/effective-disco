@@ -33,7 +33,7 @@ jobs:
       - name: Install yosys and nextpnr
         uses: awalsh128/cache-apt-pkgs-action@latest
         with:
-          packages: yosys yosys-dev nextpnr-ice40 icestorm
+          packages: yosys yosys-dev nextpnr-ice40 fpga-icestorm
           version: 1.0
 
       - name: Run makefile
