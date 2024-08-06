@@ -12,28 +12,28 @@ wire [6:0] sevenSeg1, sevenSeg2;
 assign sevenSeg1 = bcdToSevenSeg(score[3:0]);
 assign sevenSeg2 = bcdToSevenSeg(score[7:4]);
 
-always @(hcnt or vcnt) begin
-  bg_draw <= 0;
-  if (vcnt[9:1] == 128/2) bg_draw <= 1;
-  if (vcnt[9:1] == 470/2) bg_draw <= 1;
-  if (hcnt[9:1] == 320/2 && vcnt[5] == 1 && vcnt[9:1] > 128/2) bg_draw <= 1;
+always @* begin
+  bg_draw = 0;
+  if (vcnt[9:1] == 128/2) bg_draw = 1;
+  if (vcnt[9:1] == 470/2) bg_draw = 1;
+  if (hcnt[9:1] == 320/2 && vcnt[5] == 1 && vcnt[9:1] > 128/2) bg_draw = 1;
 end
 
-always @(hcnt or vcnt) begin
-  ball_draw <= 0;
+always @* begin
+  ball_draw = 0;
   if ( (hcnt < ball[9:0]   && ball[9:0]   < (hcnt+8)) &&
        (vcnt < ball[19:10] && ball[19:10] < (vcnt+8)) )
-     ball_draw <= 1;
+     ball_draw = 1;
 end
 
-always @(hcnt or vcnt) begin
-  pad_draw <= 0;
+always @* begin
+  pad_draw = 0;
   if ( (16 < hcnt && hcnt < 24) &&
        (vcnt < 128+48+ppos[9:0] && 128+ppos[9:0] < vcnt) )
-    pad_draw <= 1;
-  if ( (640-24 < hcnt && hcnt < 640-16) &&
+    pad_draw = 1;
+  if ( (640-24-8 < hcnt && hcnt < 640-16-8) &&
        (vcnt < 128+48+ppos[19:10] && 128+ppos[19:10] < vcnt) )
-    pad_draw <= 1;
+    pad_draw = 1;
 end
 
 always @* begin: score_proc
