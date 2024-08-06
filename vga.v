@@ -11,13 +11,14 @@ module vga(clk, rst, hsync, vsync, r, g, b, hcnt, vcnt);
   output reg [9:0] vcnt; // 0-525
   reg [9:0] hcnt_next, vcnt_next;
 
-  always @(vcnt or hcnt) begin
-	  hcnt_next <= hcnt + 1;
+  always @* begin
+    vcnt_next = vcnt;
+	  hcnt_next = hcnt + 1;
     if (hcnt == 800) begin
-      hcnt_next <= 0;
-      vcnt_next <= vcnt + 1;
+      hcnt_next = 0;
+      vcnt_next = vcnt + 1;
       if (vcnt == 525) begin
-        vcnt_next <= 0;
+        vcnt_next = 0;
       end
     end
   end

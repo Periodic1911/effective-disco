@@ -1,4 +1,4 @@
-module disp (input wire [19:0] ball, wire[7:0] score, wire[19:0] ppos, wire[9:0] vcnt, wire[9:0] hcnt, output reg draw);
+module disp (input wire [19:0] ball, input wire [7:0] score, input wire [19:0] ppos, input wire [9:0] vcnt, input wire [9:0] hcnt, output wire draw);
 reg ball_draw;
 reg score_draw;
 reg pad_draw;
@@ -36,56 +36,59 @@ always @(hcnt or vcnt) begin
     pad_draw <= 1;
 end
 
-always @(hcnt or vcnt) begin
-  reg [9:0] linew = 10'd32;
-  reg [9:0] linet = 10'd8;
-  reg [9:0] yoff = 10'd16;
-  reg [9:0] xoff = 10'd56;
+always @* begin: score_proc
+  reg [9:0] linew;
+  reg [9:0] linet;
+  reg [9:0] yoff;
+  reg [9:0] xoff;
   reg line [0:3];
   reg col [0:2];
   reg inLine, inCol[0:2];
+  reg [1:0] i;
+  linew = 10'd32;
+  linet = 10'd8;
+  yoff = 10'd16;
+  xoff = 10'd56;
 
   inLine = (xoff < hcnt && hcnt <= xoff+linet*2+linew);
-  for(reg [1:0] i = 0; i < 3; i = i + 1) begin
+  for(i = 0; i < 3; i = i + 1) begin
     line[i] = (yoff+(linew+linet)*i < vcnt && vcnt <= yoff+(linew+linet)*i+linet);
   end
-  for(reg [1:0] i = 0; i < 2; i = i + 1) begin
+  for(i = 0; i < 2; i = i + 1) begin
     inCol[1-i] = (yoff+(linet+linew)*i < vcnt && vcnt <= yoff+(linew+linet)*i+linet*2+linew);
     col[1-i] = (xoff+(linew+linet)*i < hcnt && hcnt <= xoff+(linew+linet)*i+linet);
   end
 
-  score_draw <= 0;
+  score_draw = 0;
 
-  if (sevenSeg1[0] && inLine && line[0]) score_draw <= 1;
-  if (sevenSeg1[3] && inLine && line[1]) score_draw <= 1;
-  if (sevenSeg1[6] && inLine && line[2]) score_draw <= 1;
-  if (sevenSeg1[2] && inCol[0] && col[0]) score_draw <= 1;
-  if (sevenSeg1[1] && inCol[0] && col[1]) score_draw <= 1;
-  if (sevenSeg1[5] && inCol[1] && col[0]) score_draw <= 1;
-  if (sevenSeg1[4] && inCol[1] && col[1]) score_draw <= 1;
+  if (sevenSeg1[0] && inLine && line[0]) score_draw = 1;
+  if (sevenSeg1[3] && inLine && line[1]) score_draw = 1;
+  if (sevenSeg1[6] && inLine && line[2]) score_draw = 1;
+  if (sevenSeg1[2] && inCol[0] && col[0]) score_draw = 1;
+  if (sevenSeg1[1] && inCol[0] && col[1]) score_draw = 1;
+  if (sevenSeg1[5] && inCol[1] && col[0]) score_draw = 1;
+  if (sevenSeg1[4] && inCol[1] && col[1]) score_draw = 1;
 
   xoff = 640-(xoff+linet*2+linew);
 
   inLine = (xoff < hcnt && hcnt <= xoff+linet*2+linew);
-  for(reg [1:0] i = 0; i < 3; i = i + 1) begin
+  for(i = 0; i < 3; i = i + 1) begin
     line[i] = (yoff+(linew+linet)*i < vcnt && vcnt <= yoff+(linew+linet)*i+linet);
   end
-  for(reg [1:0] i = 0; i < 2; i = i + 1) begin
-    inCol[1-i] = (yoff+(linet+linew)*i+linet < vcnt && vcnt <= yoff+(linew+linet)*i+linet+linew);
+  for(i = 0; i < 2; i = i + 1) begin
+    inCol[1-i] = (yoff+(linet+linew)*i < vcnt && vcnt <= yoff+(linew+linet)*i+linet*2+linew);
     col[1-i] = (xoff+(linew+linet)*i < hcnt && hcnt <= xoff+(linew+linet)*i+linet);
   end
 
-  if (sevenSeg2[0] && inLine && line[0]) score_draw <= 1;
-  if (sevenSeg2[3] && inLine && line[1]) score_draw <= 1;
-  if (sevenSeg2[6] && inLine && line[2]) score_draw <= 1;
-  if (sevenSeg2[2] && inCol[0] && col[0]) score_draw <= 1;
-  if (sevenSeg2[1] && inCol[0] && col[1]) score_draw <= 1;
-  if (sevenSeg2[5] && inCol[1] && col[0]) score_draw <= 1;
-  if (sevenSeg2[4] && inCol[1] && col[1]) score_draw <= 1;
+  if (sevenSeg2[0] && inLine && line[0]) score_draw = 1;
+  if (sevenSeg2[3] && inLine && line[1]) score_draw = 1;
+  if (sevenSeg2[6] && inLine && line[2]) score_draw = 1;
+  if (sevenSeg2[2] && inCol[0] && col[0]) score_draw = 1;
+  if (sevenSeg2[1] && inCol[0] && col[1]) score_draw = 1;
+  if (sevenSeg2[5] && inCol[1] && col[0]) score_draw = 1;
+  if (sevenSeg2[4] && inCol[1] && col[1]) score_draw = 1;
 
-end
-
-endmodule
+end: score_proc
 
 function [6:0] bcdToSevenSeg;
   input [3:0] bcd;
@@ -101,5 +104,7 @@ function [6:0] bcdToSevenSeg;
     8: bcdToSevenSeg = 7'b1111111;
     9: bcdToSevenSeg = 7'b1111101;
     default: bcdToSevenSeg = 7'b0111110;
-  endcase
+  endcase;
 endfunction
+
+endmodule
