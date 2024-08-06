@@ -50,4 +50,4 @@ sim: $(NAME).v $(DEPS) $(NAME)_tb.v $(shell yosys-config --datdir)/ice40/cells_s
 
 .PHONY: clean
 clean:
-	rm *.bin *.blif *.out
+	rm pll.v *.bin *.blif *.out
