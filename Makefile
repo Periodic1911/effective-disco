@@ -21,7 +21,7 @@ sim_disp:
 	./obj_dir/Vtb_disp
 
 
-pll.v:
+pll-hw.v:
 	icepll -i 16 -o $(CLK_MHZ) -m -f $@
 
 
@@ -50,4 +50,4 @@ sim: $(NAME).v $(DEPS) $(NAME)_tb.v $(shell yosys-config --datdir)/ice40/cells_s
 
 .PHONY: clean
 clean:
-	rm pll.v *.bin *.blif *.out
+	rm *.bin *.blif *.out

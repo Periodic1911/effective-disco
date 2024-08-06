@@ -1,7 +1,6 @@
 obj_dir/
 vga.txt
 dump.vcd
-pll.v
 *.bin
 *.blif
 *.out
